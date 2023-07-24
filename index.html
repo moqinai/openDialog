@@ -1,0 +1,28 @@
+<!--
+ * @Author: lipengcheng
+ * @Date: 2023-07-24 15:35:26
+ * @LastEditTime: 2023-07-24 17:08:18
+ * @Description: 
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>系统切换</title>
+  </head>
+  <body>
+    <!-- <div id="ZonstCommonSwitchSystem" onclick="injectSwitchSystem.openDialog()">触发按钮</div> -->
+    <div id="ZonstCommonSwitchSystem">触发按钮</div>
+
+  </body>
+  <script type="text/javascript" src="./dist/indexdev.iife.js"></script>
+  <script type="text/javascript">
+    injectSwitchSystem.init({
+      container: document.getElementById('ZonstCommonSwitchSystem'),
+    })
+  </script>
+</html>
