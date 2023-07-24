@@ -33,4 +33,5 @@ const dom = `
 const domdialog = document.createElement('div').innerHTML = dom
 document.body.appendChild(domdialog)
 
+
 export default domdialog
