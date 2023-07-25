@@ -12,8 +12,51 @@ const dom = `
             </i>
           </button>
         </header>
-        <div id="el-id-9829-89" class="el-dialog__body">
-          <span>This is a message</span>
+        <div class="el-dialog__body">
+
+          <form class="el-form">
+            <div class="el-form-item">
+              <label id="el-id-9829-351" for="el-id-9829-405" class="el-form-item__label" style="">系统选择：</label>
+              <div class="el-form-item__content">
+                <div class="el-input">
+                  <div class="el-input__wrapper" role="button" tabindex="-1">
+                    <select class="el-input__inner" autocomplete="off" tabindex="0" id="el-id-9829-405">
+                      <option :value="item.value" class="option_list">
+                        {{ item.label }}
+                      </option>
+                      <option :value="item.value" class="option_list">
+                        {{ item.label }}
+                      </option>
+                      <option :value="item.value" class="option_list">
+                        {{ item.label }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="el-form-item">
+              <label id="el-id-9829-352" for="el-id-9829-406" class="el-form-item__label" style="">环境选择：</label>
+              <div class="el-form-item__content">
+                <div class="el-input">
+                  <div class="el-input__wrapper" role="button" tabindex="-1">
+                    <select class="el-input__inner" autocomplete="off" tabindex="0" id="el-id-9829-406">
+                      <option :value="item.value" class="option_list">
+                        {{ item.label }}
+                      </option>
+                      <option :value="item.value" class="option_list">
+                        {{ item.label }}
+                      </option>
+                      <option :value="item.value" class="option_list">
+                        {{ item.label }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+
         </div>
         <footer class="el-dialog__footer">
           <span class="dialog-footer">

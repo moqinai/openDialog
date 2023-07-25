@@ -48,6 +48,8 @@
   // --el-bg-color: #ffffff;
   // --el-bg-color-page: #f2f3f5;
   // --el-bg-color-overlay: #ffffff;
+  --el-text-color-regular: #606266;
+  --el-text-color-secondary: #909399;
   --el-text-color-primary: #303133;
   --el-text-color-placeholder: #a8abb2;
   --el-text-color-disabled: #c0c4cc;
@@ -110,6 +112,27 @@
   --el-button-outline-color: var(--el-color-primary-light-5);
   --el-button-hover-link-text-color: var(--el-color-info);
   --el-button-active-color: var(--el-text-color-primary);
+  --el-component-size: 32px;
+  --el-input-width: 100%;
+  --el-transition-duration-fast: .2s;
+  --el-transition-function-ease-in-out-bezier: cubic-bezier(.645, .045, .355, 1);
+  --el-transition-box-shadow: box-shadow var(--el-transition-duration-fast) var(--el-transition-function-ease-in-out-bezier);
+  .el-input {
+    --el-input-text-color: var(--el-text-color-regular);
+    --el-input-border: var(--el-border);
+    --el-input-hover-border: var(--el-border-color-hover);
+    --el-input-focus-border: var(--el-color-primary);
+    --el-input-transparent-border: 0 0 0 1px transparent inset;
+    --el-input-border-color: var(--el-border-color);
+    --el-input-border-radius: var(--el-border-radius-base);
+    --el-input-bg-color: var(--el-fill-color-blank);
+    --el-input-icon-color: var(--el-text-color-placeholder);
+    --el-input-placeholder-color: var(--el-text-color-placeholder);
+    --el-input-hover-border-color: var(--el-border-color-hover);
+    --el-input-clear-hover-color: var(--el-text-color-secondary);
+    --el-input-focus-border-color: var(--el-color-primary);
+    --el-input-width: 100%;
+  }
 }
 
 .zonst-switch-system {
@@ -189,6 +212,93 @@
         padding: calc(var(--el-dialog-padding-primary) + 10px) var(--el-dialog-padding-primary);
         color: var(--el-text-color-regular);
         font-size: var(--el-dialog-content-font-size);
+        .el-form {
+          --el-form-label-font-size: var(--el-font-size-base);
+          --el-form-inline-content-width: 220px;
+          .el-form-item {
+            display: block;
+            --font-size: 14px;
+            margin-bottom: 18px;
+            .el-form-item__label {
+              display: block;
+              font-size: var(--el-form-label-font-size);
+              color: var(--el-text-color-regular);
+              height: auto;
+              text-align: left;
+              margin-bottom: 8px;
+              line-height: 22px;
+              padding: 0 12px 0 0;
+              box-sizing: border-box;
+              touch-action: manipulation;
+              cursor: default;
+            }
+            .el-form-item__content {
+              display: flex;
+              flex-wrap: wrap;
+              align-items: center;
+              flex: 1;
+              line-height: 32px;
+              position: relative;
+              font-size: var(--font-size);
+              min-width: 0;
+              .el-input {
+                --el-input-height: var(--el-component-size);
+                position: relative;
+                font-size: var(--el-font-size-base);
+                display: inline-flex;
+                width: var(--el-input-width);
+                line-height: var(--el-input-height);
+                box-sizing: border-box;
+                vertical-align: middle;
+                .el-input__wrapper {
+                  display: inline-flex;
+                  flex-grow: 1;
+                  align-items: center;
+                  justify-content: center;
+                  padding: 1px 11px;
+                  background-color: var(--el-input-bg-color, var(--el-fill-color-blank));
+                  background-image: none;
+                  border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
+                  cursor: text;
+                  transition: var(--el-transition-box-shadow);
+                  transform: translateZ(0);
+                  box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color)) inset;
+                  .el-input__inner {
+                    --el-input-inner-height: calc(var(--el-input-height, 32px) - 2px);
+                    width: 100%;
+                    flex-grow: 1;
+                    color: var(--el-input-text-color, var(--el-text-color-regular));
+                    font-size: inherit;
+                    height: var(--el-input-inner-height);
+                    line-height: var(--el-input-inner-height);
+                    padding: 0;
+                    outline: none;
+                    border: none;
+                    background: none;
+                    box-sizing: border-box;
+                  }
+                  .el-input__inner:focus {
+                    outline: none;
+                    // @extend .el-input__wrapper:focus;
+                    // box-shadow: 0 0 0 1px var(--el-input-focus-border-color) inset;
+                  }
+                }
+                .el-input__wrapper:hover {
+                  box-shadow: 0 0 0 1px var(--el-input-hover-border-color) inset;
+                }
+                .el-input__wrapper.is-focus {
+                  box-shadow: 0 0 0 1px var(--el-input-focus-border-color) inset;
+                }
+              }
+            }
+          }
+        }
+
+
+
+
+
+
       }
       .el-dialog__footer {
         // dialog_footer
