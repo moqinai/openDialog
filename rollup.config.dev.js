@@ -1,7 +1,7 @@
 /*
  * @Author: lipengcheng
  * @Date: 2023-07-24 09:52:40
- * @LastEditTime: 2023-07-24 16:21:46
+ * @LastEditTime: 2023-07-25 17:06:34
  * @Description: 
  */
 import json from "@rollup/plugin-json"
@@ -33,7 +33,10 @@ export default {
   ],
   plugins:[
     // eslint(),
-    resolve(), commonjs(), json(),
+    resolve({
+      browser: true // 如果打包后的代码如果是使用在浏览器上的，需要进行配置
+    }),
+    commonjs(), json(),
     babel({ exclude: 'node_modules/**' }), // 不转译，node_modules里面的代码
     postcss({ plugins: [autoprefixer(), cssnano()] }),
     serve({ // 打开html

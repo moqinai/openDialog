@@ -22,12 +22,13 @@ export default class injectSwitchSystem {
 
   static openDialog() {
     // console.log(2)
-    document.body.append(dialogDom)
+    document.body.appendChild(dialogDom)
   }
 
   static init(dom) {
     console.log(dom)
     try {
+      this.url = dom.env ? 'http://zlink.test.xq5.com/api/v1/platforms/all' : ''
       dom.container.addEventListener('click', this.openDialog, false);
     } catch (err) {
       console.log(err)

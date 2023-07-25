@@ -1,3 +1,5 @@
+import { $http } from './http'
+
 const dom = `
     <div role="dialog" aria-modal="true" aria-label="系统切换" class="el-overlay-dialog">
       <div class="el-dialog" tabindex="-1">
@@ -71,10 +73,12 @@ const dom = `
       </div>
     </div>
 `
+
+console.log($http)
 const domdialog = document.createElement('div')
 domdialog.className = 'zonst-switch-system'
 domdialog.style.zIndex = '2099'
 domdialog.innerHTML = dom
-document.body.appendChild(domdialog)
+// document.body.appendChild(domdialog)
 
 export default domdialog

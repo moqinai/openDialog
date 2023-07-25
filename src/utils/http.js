@@ -1,11 +1,12 @@
 /*
  * @Author: lipengcheng
  * @Date: 2023-07-24 10:39:43
- * @LastEditTime: 2023-07-24 15:39:55
+ * @LastEditTime: 2023-07-25 16:59:46
  * @Description: 
  */
 
 import axios from 'axios'
+
 // 添加请求拦截器
 axios.interceptors.request.use(
   function (config) {
@@ -20,6 +21,7 @@ axios.interceptors.request.use(
     return Promise.reject(error)
   },
 )
+
 const $http = (method, url, data) => {
   return new Promise((resolve, reject) => {
     const headers = {}
@@ -30,7 +32,7 @@ const $http = (method, url, data) => {
       dataOptions.data = data
     }
     const token = localStorage.getItem(TOKEN_NAME)
-    headers['x-xq5-jwt'] = token ?? ''
+    headers['X-Xq5-Jwt'] = token ?? ''
     axios({
       url,
       method,
@@ -42,3 +44,5 @@ const $http = (method, url, data) => {
     })
   })
 }
+
+export { $http }
