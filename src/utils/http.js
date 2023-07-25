@@ -1,7 +1,7 @@
 /*
  * @Author: lipengcheng
  * @Date: 2023-07-24 10:39:43
- * @LastEditTime: 2023-07-25 16:59:46
+ * @LastEditTime: 2023-07-25 18:02:44
  * @Description: 
  */
 
@@ -31,7 +31,7 @@ const $http = (method, url, data) => {
     } else {
       dataOptions.data = data
     }
-    const token = localStorage.getItem(TOKEN_NAME)
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiLmtYvor5XnrqHnkIblkZhhZG1pbiIsImdyb3VwX2lkIjo3LCJpc19zdXBlcnVzZXIiOmZhbHNlLCJleHAiOjE2OTA2ODMxMzh9.pFAMq5t6sXNgkJcZDBZgAhB17i1P-iP2V6kSBGkI75U' // localStorage.getItem('ZLINK_TOKEN_NAME')
     headers['X-Xq5-Jwt'] = token ?? ''
     axios({
       url,

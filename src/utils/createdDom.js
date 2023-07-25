@@ -75,10 +75,13 @@ const dom = `
 `
 
 console.log($http)
+$http('get', 'http://zlink.test.xq5.com/api/v1/platforms/all').then(res => {
+  
+})
 const domdialog = document.createElement('div')
 domdialog.className = 'zonst-switch-system'
 domdialog.style.zIndex = '2099'
 domdialog.innerHTML = dom
-// document.body.appendChild(domdialog)
+document.body.appendChild(domdialog)
 
 export default domdialog
