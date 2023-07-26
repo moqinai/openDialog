@@ -1,11 +1,27 @@
 /*
  * @Author: lipengcheng
  * @Date: 2023-07-24 10:39:43
- * @LastEditTime: 2023-07-25 18:02:44
- * @Description: 
+ * @LastEditTime: 2023-07-26 15:45:20
+ * @Description: http封装
  */
 
 import axios from 'axios'
+
+const Toast = (msg, duration) => {
+  duration = isNaN(duration) ? 3000 : duration;
+  var m = document.createElement('div');
+  m.innerHTML = msg;
+  m.style.cssText="max-width:60%;min-width: 150px;padding:0 14px;height: 40px;color: rgb(255, 255, 255);line-height: 40px;text-align: center;border-radius: 4px;position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);z-index: 9999999999;background: rgba(0, 0, 0,.7);font-size: 12px;";
+  document.body.appendChild(m);
+  setTimeout(function() {
+    var d = 0.5;
+    m.style.webkitTransition = '-webkit-transform ' + d + 's ease-in, opacity ' + d + 's ease-in';
+    m.style.opacity = '0';
+    setTimeout(function() { document.body.removeChild(m) }, d * 1000);
+  }, duration);
+}
+
+
 
 // 添加请求拦截器
 axios.interceptors.request.use(
@@ -40,7 +56,17 @@ const $http = (method, url, data) => {
       headers,
       ...dataOptions,
     }).then(async (res) => {
-      console.log(res)
+      if (res.status === 200) {
+        if (res.data.code === 0) {
+          resolve(res.data)
+        } else {
+          reject(res)
+          Toast('请求错误!', 2000);
+        }
+      } else {
+        reject(res)
+        Toast('请求错误!', 2000);
+      }
     })
   })
 }

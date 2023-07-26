@@ -37,7 +37,7 @@ export default {
       browser: true // 如果打包后的代码如果是使用在浏览器上的，需要进行配置
     }),
     commonjs(), json(),
-    babel({ exclude: 'node_modules/**' }), // 不转译，node_modules里面的代码
+    babel({ babelHelpers: 'bundled', exclude: 'node_modules/**' }), // 不转译，node_modules里面的代码
     postcss({ plugins: [autoprefixer(), cssnano()] }),
     serve({ // 打开html
       // open: true,

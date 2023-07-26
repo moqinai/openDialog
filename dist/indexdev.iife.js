@@ -391,6 +391,97 @@ var injectSwitchSystem = (function () {
     }
     return obj;
   }
+  function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+      throw new TypeError("Super expression must either be null or a function");
+    }
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+      constructor: {
+        value: subClass,
+        writable: true,
+        configurable: true
+      }
+    });
+    Object.defineProperty(subClass, "prototype", {
+      writable: false
+    });
+    if (superClass) _setPrototypeOf(subClass, superClass);
+  }
+  function _getPrototypeOf(o) {
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+      return o.__proto__ || Object.getPrototypeOf(o);
+    };
+    return _getPrototypeOf(o);
+  }
+  function _setPrototypeOf(o, p) {
+    _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+      o.__proto__ = p;
+      return o;
+    };
+    return _setPrototypeOf(o, p);
+  }
+  function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+      Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+  function _assertThisInitialized(self) {
+    if (self === void 0) {
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+    return self;
+  }
+  function _possibleConstructorReturn(self, call) {
+    if (call && (typeof call === "object" || typeof call === "function")) {
+      return call;
+    } else if (call !== void 0) {
+      throw new TypeError("Derived constructors may only return object or undefined");
+    }
+    return _assertThisInitialized(self);
+  }
+  function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+      var Super = _getPrototypeOf(Derived),
+        result;
+      if (hasNativeReflectConstruct) {
+        var NewTarget = _getPrototypeOf(this).constructor;
+        result = Reflect.construct(Super, arguments, NewTarget);
+      } else {
+        result = Super.apply(this, arguments);
+      }
+      return _possibleConstructorReturn(this, result);
+    };
+  }
+  function _superPropBase(object, property) {
+    while (!Object.prototype.hasOwnProperty.call(object, property)) {
+      object = _getPrototypeOf(object);
+      if (object === null) break;
+    }
+    return object;
+  }
+  function _get() {
+    if (typeof Reflect !== "undefined" && Reflect.get) {
+      _get = Reflect.get.bind();
+    } else {
+      _get = function _get(target, property, receiver) {
+        var base = _superPropBase(target, property);
+        if (!base) return;
+        var desc = Object.getOwnPropertyDescriptor(base, property);
+        if (desc.get) {
+          return desc.get.call(arguments.length < 3 ? target : receiver);
+        }
+        return desc.value;
+      };
+    }
+    return _get.apply(this, arguments);
+  }
   function _toPrimitive(input, hint) {
     if (typeof input !== "object" || input === null) return input;
     var prim = input[Symbol.toPrimitive];
@@ -3644,6 +3735,22 @@ var injectSwitchSystem = (function () {
   // this module should only have a default export
   var axios$1 = axios;
 
+  var Toast = function Toast(msg, duration) {
+    duration = isNaN(duration) ? 3000 : duration;
+    var m = document.createElement('div');
+    m.innerHTML = msg;
+    m.style.cssText = "max-width:60%;min-width: 150px;padding:0 14px;height: 40px;color: rgb(255, 255, 255);line-height: 40px;text-align: center;border-radius: 4px;position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);z-index: 9999999999;background: rgba(0, 0, 0,.7);font-size: 12px;";
+    document.body.appendChild(m);
+    setTimeout(function () {
+      var d = 0.5;
+      m.style.webkitTransition = '-webkit-transform ' + d + 's ease-in, opacity ' + d + 's ease-in';
+      m.style.opacity = '0';
+      setTimeout(function () {
+        document.body.removeChild(m);
+      }, d * 1000);
+    }, duration);
+  };
+
   // 添加请求拦截器
   axios$1.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
@@ -3676,7 +3783,17 @@ var injectSwitchSystem = (function () {
           return _regeneratorRuntime().wrap(function _callee$(_context) {
             while (1) switch (_context.prev = _context.next) {
               case 0:
-                console.log(res);
+                if (res.status === 200) {
+                  if (res.data.code === 0) {
+                    resolve(res.data);
+                  } else {
+                    reject(res);
+                    Toast('请求错误!', 2000);
+                  }
+                } else {
+                  reject(res);
+                  Toast('请求错误!', 2000);
+                }
               case 1:
               case "end":
                 return _context.stop();
@@ -3690,122 +3807,186 @@ var injectSwitchSystem = (function () {
     });
   };
 
-  var dom = "\n    <div role=\"dialog\" aria-modal=\"true\" aria-label=\"\u7CFB\u7EDF\u5207\u6362\" class=\"el-overlay-dialog\">\n      <div class=\"el-dialog\" tabindex=\"-1\">\n        <header class=\"el-dialog__header\">\n          <span role=\"heading\" class=\"el-dialog__title\">\u7CFB\u7EDF\u5207\u6362</span>\n          <button aria-label=\"Close this dialog\" class=\"el-dialog__headerbtn\" type=\"button\">\n            <i class=\"el-icon el-dialog__close\">\n              <svg viewBox=\"0 0 1024 1024\" xmlns=\"http://www.w3.org/2000/svg\">\n                <path fill=\"currentColor\" d=\"M764.288 214.592 512 466.88 259.712 214.592a31.936 31.936 0 0 0-45.12 45.12L466.752 512 214.528 764.224a31.936 31.936 0 1 0 45.12 45.184L512 557.184l252.288 252.288a31.936 31.936 0 0 0 45.12-45.12L557.12 512.064l252.288-252.352a31.936 31.936 0 1 0-45.12-45.184z\">\n                </path>\n              </svg>\n            </i>\n          </button>\n        </header>\n        <div class=\"el-dialog__body\">\n\n          <form class=\"el-form\">\n            <div class=\"el-form-item\">\n              <label id=\"el-id-9829-351\" for=\"el-id-9829-405\" class=\"el-form-item__label\" style=\"\">\u7CFB\u7EDF\u9009\u62E9\uFF1A</label>\n              <div class=\"el-form-item__content\">\n                <div class=\"el-input\">\n                  <div class=\"el-input__wrapper\" role=\"button\" tabindex=\"-1\">\n                    <select class=\"el-input__inner\" autocomplete=\"off\" tabindex=\"0\" id=\"el-id-9829-405\">\n                      <option :value=\"item.value\" class=\"option_list\">\n                        {{ item.label }}\n                      </option>\n                      <option :value=\"item.value\" class=\"option_list\">\n                        {{ item.label }}\n                      </option>\n                      <option :value=\"item.value\" class=\"option_list\">\n                        {{ item.label }}\n                      </option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"el-form-item\">\n              <label id=\"el-id-9829-352\" for=\"el-id-9829-406\" class=\"el-form-item__label\" style=\"\">\u73AF\u5883\u9009\u62E9\uFF1A</label>\n              <div class=\"el-form-item__content\">\n                <div class=\"el-input\">\n                  <div class=\"el-input__wrapper\" role=\"button\" tabindex=\"-1\">\n                    <select class=\"el-input__inner\" autocomplete=\"off\" tabindex=\"0\" id=\"el-id-9829-406\">\n                      <option :value=\"item.value\" class=\"option_list\">\n                        {{ item.label }}\n                      </option>\n                      <option :value=\"item.value\" class=\"option_list\">\n                        {{ item.label }}\n                      </option>\n                      <option :value=\"item.value\" class=\"option_list\">\n                        {{ item.label }}\n                      </option>\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </form>\n\n        </div>\n        <footer class=\"el-dialog__footer\">\n          <span class=\"dialog-footer\">\n            <button aria-disabled=\"false\" type=\"button\" class=\"el-button\">\n              <span class=\"\">\u53D6\u6D88</span>\n            </button>\n            <button aria-disabled=\"false\" type=\"button\" class=\"el-button el-button--primary\">\n              <span class=\"\"> \u786E\u5B9A </span>\n            </button>\n          </span>\n        </footer>\n      </div>\n    </div>\n";
-  console.log($http);
-  $http('get', 'http://zlink.test.xq5.com/api/v1/platforms/all').then(function (res) {});
-  var domdialog = document.createElement('div');
-  domdialog.className = 'zonst-switch-system';
-  domdialog.style.zIndex = '2099';
-  domdialog.innerHTML = dom;
-  document.body.appendChild(domdialog);
+  var operateDom = /*#__PURE__*/function () {
+    function operateDom() {
+      _classCallCheck(this, operateDom);
+    }
+    _createClass(operateDom, null, [{
+      key: "request",
+      value: function () {
+        var _request = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(base) {
+          var _this = this;
+          return _regeneratorRuntime().wrap(function _callee$(_context) {
+            while (1) switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return $http('GET', base + '/api/server/v1/permission/account?platformKey=zlink').then(function (res) {
+                  // console.log('1-1--1-1-1-1-1-1-1--1')
+                  console.log(res);
+                  // this.systemData = res.data?.list || []
+                  _this.systemData = [{
+                    id: 1,
+                    name: '系统1',
+                    url: 'www.baidu.com',
+                    isEnv: true,
+                    children: [{
+                      id: 11,
+                      name: '系统1-1',
+                      url: 'www.baidu.com'
+                    }, {
+                      id: 12,
+                      name: '系统1-2',
+                      url: 'www.baidu.com'
+                    }, {
+                      id: 13,
+                      name: '系统1-3',
+                      url: 'www.baidu.com'
+                    }]
+                  }, {
+                    id: 2,
+                    name: '系统2',
+                    url: 'www.baidu.com',
+                    isEnv: false
+                  }, {
+                    id: 3,
+                    name: '系统3',
+                    url: 'www.baidu.com',
+                    isEnv: false
+                  }, {
+                    id: 4,
+                    name: '系统4',
+                    url: 'www.baidu.com',
+                    isEnv: false
+                  }, {
+                    id: 5,
+                    name: '系统5',
+                    url: 'www.baidu.com',
+                    isEnv: true,
+                    children: [{
+                      id: 51,
+                      name: '系统3-1',
+                      url: 'www.baidu.com'
+                    }, {
+                      id: 52,
+                      name: '系统3-2',
+                      url: 'www.baidu.com'
+                    }, {
+                      id: 53,
+                      name: '系统3-3',
+                      url: 'www.baidu.com'
+                    }]
+                  }];
+                  for (var i = 0; i < _this.systemData.length; i++) {
+                    _this.systemHTML += "<option value=\"".concat(_this.systemData[i].id, "\" class=\"option_list\"> ").concat(_this.systemData[i].name, " </option>");
+                  }
+                  if (_this.systemData[0].isEnv) {
+                    // 如果第一个有环境变量
+                    _this.envData = _this.systemData[0].children;
+                    _this.envData.forEach(function (opt) {
+                      _this.envHTML += "<option value=\"".concat(opt.id, "\" class=\"option_list\"> ").concat(opt.name, " </option>");
+                    });
+                  }
+                });
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }, _callee);
+        }));
+        function request(_x) {
+          return _request.apply(this, arguments);
+        }
+        return request;
+      }()
+    }, {
+      key: "createdDom",
+      value: function createdDom() {
+        this.domdialog.className = 'zonst-switch-system';
+        this.domdialog.style.zIndex = '2099';
+        this.domdialog.style.display = 'none';
+        this.domdialog.innerHTML = this.dom;
+        document.body.appendChild(this.domdialog);
+        document.querySelector('.select_system_container').innerHTML = this.systemHTML;
+        document.querySelector('.select_env_container').innerHTML = this.envHTML;
+      }
+    }, {
+      key: "closeDialog",
+      value: function closeDialog() {
+        _get(_getPrototypeOf(operateDom), "domdialog", this).style.display = 'none';
+      }
+    }]);
+    return operateDom;
+  }();
+  _defineProperty(operateDom, "systemData", []);
+  _defineProperty(operateDom, "systemHTML", '<option value="" class="option_list"> 请选择系统 </option>');
+  _defineProperty(operateDom, "envData", []);
+  _defineProperty(operateDom, "envHTML", '<option value="" class="option_list"> 请选择环境 </option>');
+  _defineProperty(operateDom, "domdialog", document.createElement('div'));
+  _defineProperty(operateDom, "dom", "\n    <div role=\"dialog\" aria-modal=\"true\" aria-label=\"\u7CFB\u7EDF\u5207\u6362\" class=\"el-overlay-dialog\">\n      <div class=\"el-dialog\" tabindex=\"-1\">\n        <header class=\"el-dialog__header\">\n          <span role=\"heading\" class=\"el-dialog__title\">\u7CFB\u7EDF\u5207\u6362</span>\n          <button aria-label=\"Close this dialog\" class=\"el-dialog__headerbtn\" type=\"button\" onClick=\"".concat(operateDom.closeDialog, "\">\n            <i class=\"el-icon el-dialog__close\">\n              <svg viewBox=\"0 0 1024 1024\" xmlns=\"http://www.w3.org/2000/svg\">\n                <path fill=\"currentColor\" d=\"M764.288 214.592 512 466.88 259.712 214.592a31.936 31.936 0 0 0-45.12 45.12L466.752 512 214.528 764.224a31.936 31.936 0 1 0 45.12 45.184L512 557.184l252.288 252.288a31.936 31.936 0 0 0 45.12-45.12L557.12 512.064l252.288-252.352a31.936 31.936 0 1 0-45.12-45.184z\">\n                </path>\n              </svg>\n            </i>\n          </button>\n        </header>\n        <div class=\"el-dialog__body\">\n\n          <form class=\"el-form\">\n            <div class=\"el-form-item\">\n              <label id=\"el-id-9829-351\" for=\"el-id-9829-405\" class=\"el-form-item__label\" style=\"\">\u7CFB\u7EDF\u9009\u62E9\uFF1A</label>\n              <div class=\"el-form-item__content\">\n                <div class=\"el-input\">\n                  <div class=\"el-input__wrapper\" role=\"button\" tabindex=\"-1\">\n                    <select class=\"el-input__inner select_system_container\" autocomplete=\"off\" tabindex=\"0\" id=\"el-id-9829-405\" onChange=\"injectSwitchSystem.systemChange(this.options[this.options.selectedIndex].value)\">\n                      ") + operateDom.systemHTML + "\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"el-form-item\">\n              <label id=\"el-id-9829-352\" for=\"el-id-9829-406\" class=\"el-form-item__label\" style=\"\">\u73AF\u5883\u9009\u62E9\uFF1A</label>\n              <div class=\"el-form-item__content\">\n                <div class=\"el-input\">\n                  <div class=\"el-input__wrapper\" role=\"button\" tabindex=\"-1\">\n                    <select class=\"el-input__inner select_env_container\" autocomplete=\"off\" tabindex=\"0\" id=\"el-id-9829-406\" onChange=\"injectSwitchSystem.systemChange(this.options[this.options.selectedIndex].value)\">\n                      " + operateDom.envHTML + "\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </form>\n\n        </div>\n        <footer class=\"el-dialog__footer\">\n          <span class=\"dialog-footer\">\n            <button aria-disabled=\"false\" type=\"button\" class=\"el-button\" onClick=\"injectSwitchSystem.closeDialog()\">\n              <span class=\"\">\u53D6\u6D88</span>\n            </button>\n            <button aria-disabled=\"false\" type=\"button\" class=\"el-button el-button--primary\">\n              <span class=\"\"> \u786E\u5B9A </span>\n            </button>\n          </span>\n        </footer>\n      </div>\n    </div>\n  ");
+  _defineProperty(operateDom, "systemChange", function (v) {
+    console.log(v);
+  });
 
-  /* const createdDom = () => {
-    const dom = `
-      <div role="dialog" aria-modal="true" aria-label="系统切换" class="el-overlay-dialog">
-        <div class="el-dialog" tabindex="-1">
-          <header class="el-dialog__header">
-            <span role="heading" class="el-dialog__title">系统切换</span>
-            <button aria-label="Close this dialog" class="el-dialog__headerbtn" type="button">
-              <i class="el-icon el-dialog__close">
-                <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-                  <path fill="currentColor" d="M764.288 214.592 512 466.88 259.712 214.592a31.936 31.936 0 0 0-45.12 45.12L466.752 512 214.528 764.224a31.936 31.936 0 1 0 45.12 45.184L512 557.184l252.288 252.288a31.936 31.936 0 0 0 45.12-45.12L557.12 512.064l252.288-252.352a31.936 31.936 0 1 0-45.12-45.184z">
-                  </path>
-                </svg>
-              </i>
-            </button>
-          </header>
-          <div class="el-dialog__body">
-
-            <form class="el-form">
-              <div class="el-form-item">
-                <label id="el-id-9829-351" for="el-id-9829-405" class="el-form-item__label" style="">系统选择：</label>
-                <div class="el-form-item__content">
-                  <div class="el-input">
-                    <div class="el-input__wrapper" role="button" tabindex="-1">
-                      <select class="el-input__inner" autocomplete="off" tabindex="0" id="el-id-9829-405">
-                        <option :value="item.value" class="option_list">
-                          {{ item.label }}
-                        </option>
-                        <option :value="item.value" class="option_list">
-                          {{ item.label }}
-                        </option>
-                        <option :value="item.value" class="option_list">
-                          {{ item.label }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="el-form-item">
-                <label id="el-id-9829-352" for="el-id-9829-406" class="el-form-item__label" style="">环境选择：</label>
-                <div class="el-form-item__content">
-                  <div class="el-input">
-                    <div class="el-input__wrapper" role="button" tabindex="-1">
-                      <select class="el-input__inner" autocomplete="off" tabindex="0" id="el-id-9829-406">
-                        <option :value="item.value" class="option_list">
-                          {{ item.label }}
-                        </option>
-                        <option :value="item.value" class="option_list">
-                          {{ item.label }}
-                        </option>
-                        <option :value="item.value" class="option_list">
-                          {{ item.label }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </form>
-
-          </div>
-          <footer class="el-dialog__footer">
-            <span class="dialog-footer">
-              <button aria-disabled="false" type="button" class="el-button">
-                <span class="">取消</span>
-              </button>
-              <button aria-disabled="false" type="button" class="el-button el-button--primary">
-                <span class=""> 确定 </span>
-              </button>
-            </span>
-          </footer>
-        </div>
-      </div>
-    `
-    const domdialog = document.createElement('div')
-    domdialog.className = 'zonst-switch-system'
-    domdialog.style.zIndex = '2099'
-    domdialog.innerHTML = dom
-  } */
-  var injectSwitchSystem = /*#__PURE__*/function () {
+  var injectSwitchSystem = /*#__PURE__*/function (_operateDom) {
+    _inherits(injectSwitchSystem, _operateDom);
+    var _super = _createSuper(injectSwitchSystem);
     function injectSwitchSystem() {
       _classCallCheck(this, injectSwitchSystem);
+      return _super.call(this);
     }
     _createClass(injectSwitchSystem, null, [{
       key: "openDialog",
       value:
-      // 请求系统接口
+      // static closeDialog() {
+      //   super.domdialog.style.display = 'none'
+      // }
 
+      // static systemChange = (v) => {
+      //   console.log(v)
+      // }
       function openDialog() {
-        document.body.appendChild(domdialog);
+        // console.log(super.domdialog)
+        _get(_getPrototypeOf(injectSwitchSystem), "domdialog", this).style.display = 'block';
       }
     }, {
       key: "init",
-      value: function init(dom) {
-        console.log(dom);
-        try {
-          this.url = dom.env ? 'http://zlink.test.xq5.com/api/v1/platforms/all' : 'https://zlink.zonst.com/api/v1/platforms/all';
-          console.log(this.url);
-          dom.container.addEventListener('click', this.openDialog, false);
-        } catch (err) {
-          console.log(err);
+      value: function () {
+        var _init = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(dom) {
+          var baseUrl;
+          return _regeneratorRuntime().wrap(function _callee$(_context) {
+            while (1) switch (_context.prev = _context.next) {
+              case 0:
+                console.log(dom);
+                _context.prev = 1;
+                baseUrl = dom.env ? 'http://zlink.test.xq5.com' : 'https://zlink.zonst.com';
+                this.url = baseUrl;
+                _context.next = 6;
+                return _get(_getPrototypeOf(injectSwitchSystem), "request", this).call(this, this.url);
+              case 6:
+                // 请求数据
+                _get(_getPrototypeOf(injectSwitchSystem), "createdDom", this).call(this); // 创建Dom
+                dom.container.addEventListener('click', this.openDialog, false);
+                _context.next = 13;
+                break;
+              case 10:
+                _context.prev = 10;
+                _context.t0 = _context["catch"](1);
+                console.log(_context.t0);
+              case 13:
+              case "end":
+                return _context.stop();
+            }
+          }, _callee, this, [[1, 10]]);
+        }));
+        function init(_x) {
+          return _init.apply(this, arguments);
         }
-      }
+        return init;
+      }()
     }]);
     return injectSwitchSystem;
-  }();
-  _defineProperty(injectSwitchSystem, "url", 'https://xxxx.com');
+  }(operateDom);
+  _defineProperty(injectSwitchSystem, "url", 'https://zlink.zonst.com');
 
   return injectSwitchSystem;
 
