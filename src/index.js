@@ -14,6 +14,7 @@ export default class injectSwitchSystem extends operateDom {
 
   // static systemChange = (v) => {
   //   console.log(v)
+  //   console.log(super.systemData)
   // }
 
   static openDialog() {

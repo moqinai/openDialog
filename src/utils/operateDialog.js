@@ -1,7 +1,7 @@
 /*
  * @Author: lipengcheng
  * @Date: 2023-07-24 17:15:28
- * @LastEditTime: 2023-07-26 15:46:28
+ * @LastEditTime: 2023-07-26 17:53:24
  * @Description: 生成dialog dom及操作
  */
 import { $http } from './http'
@@ -9,6 +9,7 @@ import { $http } from './http'
 class operateDom {
   constructor() {}
   static systemData = []
+  
   static systemHTML = '<option value="" class="option_list"> 请选择系统 </option>'
   static envData = []
   static envHTML = '<option value="" class="option_list"> 请选择环境 </option>'
@@ -44,7 +45,7 @@ class operateDom {
                 </div>
               </div>
             </div>
-            <div class="el-form-item">
+            <div class="el-form-item env-form-item">
               <label id="el-id-9829-352" for="el-id-9829-406" class="el-form-item__label" style="">环境选择：</label>
               <div class="el-form-item__content">
                 <div class="el-input">
@@ -75,8 +76,6 @@ class operateDom {
 
   static async request(base) {
     await $http('GET', base + '/api/server/v1/permission/account?platformKey=zlink').then(res => {
-      // console.log('1-1--1-1-1-1-1-1-1--1')
-      console.log(res)
       // this.systemData = res.data?.list || []
       this.systemData = [
         { id: 1, name: '系统1', url: 'www.baidu.com', isEnv: true,
@@ -91,17 +90,15 @@ class operateDom {
         { id: 4, name: '系统4', url: 'www.baidu.com', isEnv: false },
         { id: 5, name: '系统5', url: 'www.baidu.com', isEnv: true,
           children: [
-            { id: 51, name: '系统3-1', url: 'www.baidu.com' },
-            { id: 52, name: '系统3-2', url: 'www.baidu.com' },
-            { id: 53, name: '系统3-3', url: 'www.baidu.com' },
+            { id: 51, name: '系统5-1', url: 'www.baidu.com' },
+            { id: 52, name: '系统5-2', url: 'www.baidu.com' },
+            { id: 53, name: '系统5-3', url: 'www.baidu.com' },
           ]
         }
       ]
-
       for (let i = 0; i < this.systemData.length; i++) {
         this.systemHTML += `<option value="${ this.systemData[i].id }" class="option_list"> ${ this.systemData[i].name } </option>`
       }
-
       if (this.systemData[0].isEnv) { // 如果第一个有环境变量
         this.envData = this.systemData[0].children
         this.envData.forEach((opt) => {
@@ -117,6 +114,8 @@ class operateDom {
     this.domdialog.style.display = 'none'
     this.domdialog.innerHTML = this.dom
     document.body.appendChild(this.domdialog)
+    console.log(this.systemData)
+
     document.querySelector('.select_system_container').innerHTML = this.systemHTML
     document.querySelector('.select_env_container').innerHTML = this.envHTML
   }
@@ -125,8 +124,24 @@ class operateDom {
     super.domdialog.style.display = 'none'
   }
 
-  static systemChange = (v) => {
+  static systemChange(v) {
     console.log(v)
+    if (!v) return
+    this.systemData.forEach(list => {
+      if (list.id === +v) {
+        if (!list.isEnv) {
+          document.querySelector('.env-form-item').style.display = 'none'
+        } else {
+          this.envData = list.children
+          this.envHTML = '<option value="" class="option_list"> 请选择环境 </option>'
+          this.envData.forEach((opt) => {
+            this.envHTML += `<option value="${ opt.id }" class="option_list"> ${ opt.name } </option>`
+          })
+          document.querySelector('.select_env_container').innerHTML = this.envHTML
+          document.querySelector('.env-form-item').style.display = 'block'
+        }
+      }
+    })
   }
 }
 

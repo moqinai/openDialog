@@ -3821,8 +3821,6 @@ var injectSwitchSystem = (function () {
               case 0:
                 _context.next = 2;
                 return $http('GET', base + '/api/server/v1/permission/account?platformKey=zlink').then(function (res) {
-                  // console.log('1-1--1-1-1-1-1-1-1--1')
-                  console.log(res);
                   // this.systemData = res.data?.list || []
                   _this.systemData = [{
                     id: 1,
@@ -3864,15 +3862,15 @@ var injectSwitchSystem = (function () {
                     isEnv: true,
                     children: [{
                       id: 51,
-                      name: '系统3-1',
+                      name: '系统5-1',
                       url: 'www.baidu.com'
                     }, {
                       id: 52,
-                      name: '系统3-2',
+                      name: '系统5-2',
                       url: 'www.baidu.com'
                     }, {
                       id: 53,
-                      name: '系统3-3',
+                      name: '系统5-3',
                       url: 'www.baidu.com'
                     }]
                   }];
@@ -3906,6 +3904,7 @@ var injectSwitchSystem = (function () {
         this.domdialog.style.display = 'none';
         this.domdialog.innerHTML = this.dom;
         document.body.appendChild(this.domdialog);
+        console.log(this.systemData);
         document.querySelector('.select_system_container').innerHTML = this.systemHTML;
         document.querySelector('.select_env_container').innerHTML = this.envHTML;
       }
@@ -3913,6 +3912,28 @@ var injectSwitchSystem = (function () {
       key: "closeDialog",
       value: function closeDialog() {
         _get(_getPrototypeOf(operateDom), "domdialog", this).style.display = 'none';
+      }
+    }, {
+      key: "systemChange",
+      value: function systemChange(v) {
+        var _this2 = this;
+        console.log(v);
+        if (!v) return;
+        this.systemData.forEach(function (list) {
+          if (list.id === +v) {
+            if (!list.isEnv) {
+              document.querySelector('.env-form-item').style.display = 'none';
+            } else {
+              _this2.envData = list.children;
+              _this2.envHTML = '<option value="" class="option_list"> 请选择环境 </option>';
+              _this2.envData.forEach(function (opt) {
+                _this2.envHTML += "<option value=\"".concat(opt.id, "\" class=\"option_list\"> ").concat(opt.name, " </option>");
+              });
+              document.querySelector('.select_env_container').innerHTML = _this2.envHTML;
+              document.querySelector('.env-form-item').style.display = 'block';
+            }
+          }
+        });
       }
     }]);
     return operateDom;
@@ -3922,10 +3943,7 @@ var injectSwitchSystem = (function () {
   _defineProperty(operateDom, "envData", []);
   _defineProperty(operateDom, "envHTML", '<option value="" class="option_list"> 请选择环境 </option>');
   _defineProperty(operateDom, "domdialog", document.createElement('div'));
-  _defineProperty(operateDom, "dom", "\n    <div role=\"dialog\" aria-modal=\"true\" aria-label=\"\u7CFB\u7EDF\u5207\u6362\" class=\"el-overlay-dialog\">\n      <div class=\"el-dialog\" tabindex=\"-1\">\n        <header class=\"el-dialog__header\">\n          <span role=\"heading\" class=\"el-dialog__title\">\u7CFB\u7EDF\u5207\u6362</span>\n          <button aria-label=\"Close this dialog\" class=\"el-dialog__headerbtn\" type=\"button\" onClick=\"".concat(operateDom.closeDialog, "\">\n            <i class=\"el-icon el-dialog__close\">\n              <svg viewBox=\"0 0 1024 1024\" xmlns=\"http://www.w3.org/2000/svg\">\n                <path fill=\"currentColor\" d=\"M764.288 214.592 512 466.88 259.712 214.592a31.936 31.936 0 0 0-45.12 45.12L466.752 512 214.528 764.224a31.936 31.936 0 1 0 45.12 45.184L512 557.184l252.288 252.288a31.936 31.936 0 0 0 45.12-45.12L557.12 512.064l252.288-252.352a31.936 31.936 0 1 0-45.12-45.184z\">\n                </path>\n              </svg>\n            </i>\n          </button>\n        </header>\n        <div class=\"el-dialog__body\">\n\n          <form class=\"el-form\">\n            <div class=\"el-form-item\">\n              <label id=\"el-id-9829-351\" for=\"el-id-9829-405\" class=\"el-form-item__label\" style=\"\">\u7CFB\u7EDF\u9009\u62E9\uFF1A</label>\n              <div class=\"el-form-item__content\">\n                <div class=\"el-input\">\n                  <div class=\"el-input__wrapper\" role=\"button\" tabindex=\"-1\">\n                    <select class=\"el-input__inner select_system_container\" autocomplete=\"off\" tabindex=\"0\" id=\"el-id-9829-405\" onChange=\"injectSwitchSystem.systemChange(this.options[this.options.selectedIndex].value)\">\n                      ") + operateDom.systemHTML + "\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"el-form-item\">\n              <label id=\"el-id-9829-352\" for=\"el-id-9829-406\" class=\"el-form-item__label\" style=\"\">\u73AF\u5883\u9009\u62E9\uFF1A</label>\n              <div class=\"el-form-item__content\">\n                <div class=\"el-input\">\n                  <div class=\"el-input__wrapper\" role=\"button\" tabindex=\"-1\">\n                    <select class=\"el-input__inner select_env_container\" autocomplete=\"off\" tabindex=\"0\" id=\"el-id-9829-406\" onChange=\"injectSwitchSystem.systemChange(this.options[this.options.selectedIndex].value)\">\n                      " + operateDom.envHTML + "\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </form>\n\n        </div>\n        <footer class=\"el-dialog__footer\">\n          <span class=\"dialog-footer\">\n            <button aria-disabled=\"false\" type=\"button\" class=\"el-button\" onClick=\"injectSwitchSystem.closeDialog()\">\n              <span class=\"\">\u53D6\u6D88</span>\n            </button>\n            <button aria-disabled=\"false\" type=\"button\" class=\"el-button el-button--primary\">\n              <span class=\"\"> \u786E\u5B9A </span>\n            </button>\n          </span>\n        </footer>\n      </div>\n    </div>\n  ");
-  _defineProperty(operateDom, "systemChange", function (v) {
-    console.log(v);
-  });
+  _defineProperty(operateDom, "dom", "\n    <div role=\"dialog\" aria-modal=\"true\" aria-label=\"\u7CFB\u7EDF\u5207\u6362\" class=\"el-overlay-dialog\">\n      <div class=\"el-dialog\" tabindex=\"-1\">\n        <header class=\"el-dialog__header\">\n          <span role=\"heading\" class=\"el-dialog__title\">\u7CFB\u7EDF\u5207\u6362</span>\n          <button aria-label=\"Close this dialog\" class=\"el-dialog__headerbtn\" type=\"button\" onClick=\"".concat(operateDom.closeDialog, "\">\n            <i class=\"el-icon el-dialog__close\">\n              <svg viewBox=\"0 0 1024 1024\" xmlns=\"http://www.w3.org/2000/svg\">\n                <path fill=\"currentColor\" d=\"M764.288 214.592 512 466.88 259.712 214.592a31.936 31.936 0 0 0-45.12 45.12L466.752 512 214.528 764.224a31.936 31.936 0 1 0 45.12 45.184L512 557.184l252.288 252.288a31.936 31.936 0 0 0 45.12-45.12L557.12 512.064l252.288-252.352a31.936 31.936 0 1 0-45.12-45.184z\">\n                </path>\n              </svg>\n            </i>\n          </button>\n        </header>\n        <div class=\"el-dialog__body\">\n\n          <form class=\"el-form\">\n            <div class=\"el-form-item\">\n              <label id=\"el-id-9829-351\" for=\"el-id-9829-405\" class=\"el-form-item__label\" style=\"\">\u7CFB\u7EDF\u9009\u62E9\uFF1A</label>\n              <div class=\"el-form-item__content\">\n                <div class=\"el-input\">\n                  <div class=\"el-input__wrapper\" role=\"button\" tabindex=\"-1\">\n                    <select class=\"el-input__inner select_system_container\" autocomplete=\"off\" tabindex=\"0\" id=\"el-id-9829-405\" onChange=\"injectSwitchSystem.systemChange(this.options[this.options.selectedIndex].value)\">\n                      ") + operateDom.systemHTML + "\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"el-form-item env-form-item\">\n              <label id=\"el-id-9829-352\" for=\"el-id-9829-406\" class=\"el-form-item__label\" style=\"\">\u73AF\u5883\u9009\u62E9\uFF1A</label>\n              <div class=\"el-form-item__content\">\n                <div class=\"el-input\">\n                  <div class=\"el-input__wrapper\" role=\"button\" tabindex=\"-1\">\n                    <select class=\"el-input__inner select_env_container\" autocomplete=\"off\" tabindex=\"0\" id=\"el-id-9829-406\" onChange=\"injectSwitchSystem.systemChange(this.options[this.options.selectedIndex].value)\">\n                      " + operateDom.envHTML + "\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </form>\n\n        </div>\n        <footer class=\"el-dialog__footer\">\n          <span class=\"dialog-footer\">\n            <button aria-disabled=\"false\" type=\"button\" class=\"el-button\" onClick=\"injectSwitchSystem.closeDialog()\">\n              <span class=\"\">\u53D6\u6D88</span>\n            </button>\n            <button aria-disabled=\"false\" type=\"button\" class=\"el-button el-button--primary\">\n              <span class=\"\"> \u786E\u5B9A </span>\n            </button>\n          </span>\n        </footer>\n      </div>\n    </div>\n  ");
 
   var injectSwitchSystem = /*#__PURE__*/function (_operateDom) {
     _inherits(injectSwitchSystem, _operateDom);
@@ -3943,6 +3961,7 @@ var injectSwitchSystem = (function () {
 
       // static systemChange = (v) => {
       //   console.log(v)
+      //   console.log(super.systemData)
       // }
       function openDialog() {
         // console.log(super.domdialog)
