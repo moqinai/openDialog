@@ -1,5 +1,7 @@
 // import { $http } from './utils/http'
-import './index.scss'
+// import './index.scss'
+import './base.scss'
+import './el-drawer.scss'
 import operateDom from './utils/operateDialog'
 
 export default class injectSwitchSystem extends operateDom {
@@ -19,7 +21,15 @@ export default class injectSwitchSystem extends operateDom {
 
   static openDialog() {
     // console.log(super.domdialog)
+    console.log(super.domdialog.querySelector('.el-drawer').classList)
+    // super.domdialog.querySelector('.el-drawer').classList.remove('close')
+    // super.domdialog.querySelector('.el-drawer').classList.add('open')
     super.domdialog.style.display = 'block'
+    const a = setTimeout(() => {
+      super.domdialog.querySelector('.el-drawer').classList.add('open')
+      clearTimeout(a)
+    }, 50)
+    // super.domdialog.querySelector('.el-drawer').style.transform = 'translate(0, 0)'
   }
 
   static async init(dom) {

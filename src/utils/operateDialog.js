@@ -1,7 +1,7 @@
 /*
  * @Author: lipengcheng
  * @Date: 2023-07-24 17:15:28
- * @LastEditTime: 2023-07-26 17:53:24
+ * @LastEditTime: 2023-07-27 16:15:22
  * @Description: 生成dialog dom及操作
  */
 import { $http } from './http'
@@ -16,6 +16,26 @@ class operateDom {
 
   static domdialog = document.createElement('div')
 
+  static drawerDom = `
+    <div class="el-overlay" style="z-index: 2039;">
+      <div aria-modal="true" aria-label="I have a nested table inside!" aria-describedby="el-id-2609-193" class="el-drawer rtl" role="dialog" style="width: 80%;">
+        <span class="el-drawer__sr-focus" tabindex="-1"></span>
+        <header class="el-drawer__header">
+          <span id="el-id-2609-194" role="heading" class="el-drawer__title">I have a nested table inside!</span>
+          <button aria-label="Close this dialog" class="el-drawer__close-btn" type="button" onClick="injectSwitchSystem.closeDialog()">
+            <i class="el-icon el-drawer__close">
+              <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                <path fill="currentColor" d="M764.288 214.592 512 466.88 259.712 214.592a31.936 31.936 0 0 0-45.12 45.12L466.752 512 214.528 764.224a31.936 31.936 0 1 0 45.12 45.184L512 557.184l252.288 252.288a31.936 31.936 0 0 0 45.12-45.12L557.12 512.064l252.288-252.352a31.936 31.936 0 1 0-45.12-45.184z"></path>
+              </svg>
+            </i>
+          </button>
+        </header>
+        <div id="el-id-2609-193" class="el-drawer__body"></div>
+      </div>
+    </div>`
+
+
+  
   static dom = `
     <div role="dialog" aria-modal="true" aria-label="系统切换" class="el-overlay-dialog">
       <div class="el-dialog" tabindex="-1">
@@ -111,17 +131,29 @@ class operateDom {
   static createdDom() {
     this.domdialog.className = 'zonst-switch-system'
     this.domdialog.style.zIndex = '2099'
+    this.domdialog.innerHTML = this.drawerDom // this.dom
     this.domdialog.style.display = 'none'
-    this.domdialog.innerHTML = this.dom
     document.body.appendChild(this.domdialog)
+    // this.domdialog.style.display = 'block'
+    // console.log(this.domdialog.querySelector('.el-drawer').classList)
     console.log(this.systemData)
+    // this.domdialog.querySelector('.el-drawer').style.transform = 'translate(0,0)' // 'translateX(100%)'
+    
+    
 
-    document.querySelector('.select_system_container').innerHTML = this.systemHTML
-    document.querySelector('.select_env_container').innerHTML = this.envHTML
+    // document.querySelector('.select_system_container').innerHTML = this.systemHTML
+    // document.querySelector('.select_env_container').innerHTML = this.envHTML
   }
 
   static closeDialog() {
-    super.domdialog.style.display = 'none'
+    this.domdialog.querySelector('.el-drawer').classList.remove('open')
+    const a = setTimeout(() => {
+      // super.domdialog.querySelector('.el-drawer').classList.add('open')
+      this.domdialog.style.display = 'none'
+      clearTimeout(a)
+    }, 500)
+    // this.domdialog.querySelector('.el-drawer').classList.add('open')
+    // super.domdialog.querySelector('.el-drawer').setAttribute('className', 'close')
   }
 
   static systemChange(v) {

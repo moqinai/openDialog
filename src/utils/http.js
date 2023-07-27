@@ -1,7 +1,7 @@
 /*
  * @Author: lipengcheng
  * @Date: 2023-07-24 10:39:43
- * @LastEditTime: 2023-07-26 15:45:20
+ * @LastEditTime: 2023-07-27 18:10:27
  * @Description: http封装
  */
 
@@ -49,7 +49,23 @@ const $http = (method, url, data) => {
     }
     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiLmtYvor5XnrqHnkIblkZhhZG1pbiIsImdyb3VwX2lkIjo3LCJpc19zdXBlcnVzZXIiOmZhbHNlLCJleHAiOjE2OTA2ODMxMzh9.pFAMq5t6sXNgkJcZDBZgAhB17i1P-iP2V6kSBGkI75U' // localStorage.getItem('ZLINK_TOKEN_NAME')
     headers['X-Xq5-Jwt'] = token ?? ''
-    axios({
+    
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, url, true);
+    console.log(headers)
+    xhr.setRequestHeader('X-Xq5-Jwt', token)
+    xhr.send();
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4) {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          resolve(xhr.response);
+        } else {
+          reject(xhr.status);
+          Toast('请求错误!', 2000);
+        }
+      }
+    }
+    /* axios({
       url,
       method,
       timeout: 10000,
@@ -67,7 +83,7 @@ const $http = (method, url, data) => {
         reject(res)
         Toast('请求错误!', 2000);
       }
-    })
+    }) */
   })
 }
 
