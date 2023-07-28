@@ -1,7 +1,7 @@
 /*
  * @Author: lipengcheng
  * @Date: 2023-07-24 17:15:28
- * @LastEditTime: 2023-07-27 16:15:22
+ * @LastEditTime: 2023-07-28 11:18:53
  * @Description: 生成dialog dom及操作
  */
 import { $http } from './http'
@@ -134,26 +134,37 @@ class operateDom {
     this.domdialog.innerHTML = this.drawerDom // this.dom
     this.domdialog.style.display = 'none'
     document.body.appendChild(this.domdialog)
-    // this.domdialog.style.display = 'block'
-    // console.log(this.domdialog.querySelector('.el-drawer').classList)
-    console.log(this.systemData)
-    // this.domdialog.querySelector('.el-drawer').style.transform = 'translate(0,0)' // 'translateX(100%)'
-    
-    
-
     // document.querySelector('.select_system_container').innerHTML = this.systemHTML
     // document.querySelector('.select_env_container').innerHTML = this.envHTML
   }
 
-  static closeDialog() {
-    this.domdialog.querySelector('.el-drawer').classList.remove('open')
+  static close() {
+    document.querySelector('.zonst-switch-system .el-drawer').classList.remove('open')
     const a = setTimeout(() => {
-      // super.domdialog.querySelector('.el-drawer').classList.add('open')
-      this.domdialog.style.display = 'none'
+      document.querySelector('.zonst-switch-system').style.display = 'none'
       clearTimeout(a)
     }, 500)
-    // this.domdialog.querySelector('.el-drawer').classList.add('open')
-    // super.domdialog.querySelector('.el-drawer').setAttribute('className', 'close')
+  }
+
+  static closeDialog(e) {
+    if (e) {
+      if ((typeof e.target.className) !== 'object' && e.target.className.indexOf('el-overlay') !== -1) {
+        console.log(this)
+        operateDom.close();
+      }
+      return
+    }
+    this.close();
+  }
+
+  static keyDownListener() {
+    document.onkeydown = function (event) {
+      const e = event || window.event || arguments.callee.caller.arguments[0];
+      if (e && e.keyCode == 27) { // 按 Esc
+        if (document.querySelector('.zonst-switch-system').style.display !== 'block') return
+        operateDom.close()
+      }
+    }
   }
 
   static systemChange(v) {

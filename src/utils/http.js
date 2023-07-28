@@ -1,11 +1,11 @@
 /*
  * @Author: lipengcheng
  * @Date: 2023-07-24 10:39:43
- * @LastEditTime: 2023-07-27 18:10:27
+ * @LastEditTime: 2023-07-28 09:30:23
  * @Description: http封装
  */
 
-import axios from 'axios'
+// import axios from 'axios'
 
 const Toast = (msg, duration) => {
   duration = isNaN(duration) ? 3000 : duration;
@@ -20,23 +20,6 @@ const Toast = (msg, duration) => {
     setTimeout(function() { document.body.removeChild(m) }, d * 1000);
   }, duration);
 }
-
-
-
-// 添加请求拦截器
-axios.interceptors.request.use(
-  function (config) {
-    // 在发送请求之前做些什么
-    // const headers = config.headers as AxiosRequestHeaders
-    // const token = $util.storage('local', 'get', `${import.meta.env.VITE_PROJECT_PREFIX}_TOKEN`) || 'Basic YWRtaW46em9uc3Q='
-    // if (token) headers.Authorization = token
-    return config
-  },
-  function (error) {
-    // 对请求错误做些什么
-    return Promise.reject(error)
-  },
-)
 
 const $http = (method, url, data) => {
   return new Promise((resolve, reject) => {

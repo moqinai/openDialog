@@ -10,26 +10,14 @@ export default class injectSwitchSystem extends operateDom {
   }
   static url = 'https://zlink.zonst.com'
 
-  // static closeDialog() {
-  //   super.domdialog.style.display = 'none'
-  // }
-
-  // static systemChange = (v) => {
-  //   console.log(v)
-  //   console.log(super.systemData)
-  // }
-
   static openDialog() {
-    // console.log(super.domdialog)
-    console.log(super.domdialog.querySelector('.el-drawer').classList)
-    // super.domdialog.querySelector('.el-drawer').classList.remove('close')
-    // super.domdialog.querySelector('.el-drawer').classList.add('open')
     super.domdialog.style.display = 'block'
     const a = setTimeout(() => {
       super.domdialog.querySelector('.el-drawer').classList.add('open')
       clearTimeout(a)
     }, 50)
-    // super.domdialog.querySelector('.el-drawer').style.transform = 'translate(0, 0)'
+    super.domdialog.querySelector('.el-overlay').addEventListener('click', super.closeDialog, false); // 监听点击空白处
+    super.keyDownListener() // 监听esc按下
   }
 
   static async init(dom) {
