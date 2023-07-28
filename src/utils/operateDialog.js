@@ -1,7 +1,7 @@
 /*
  * @Author: lipengcheng
  * @Date: 2023-07-24 17:15:28
- * @LastEditTime: 2023-07-28 11:18:53
+ * @LastEditTime: 2023-07-28 18:05:38
  * @Description: 生成dialog dom及操作
  */
 import { $http } from './http'
@@ -18,10 +18,10 @@ class operateDom {
 
   static drawerDom = `
     <div class="el-overlay" style="z-index: 2039;">
-      <div aria-modal="true" aria-label="I have a nested table inside!" aria-describedby="el-id-2609-193" class="el-drawer rtl" role="dialog" style="width: 80%;">
+      <div aria-modal="true" aria-label="系统切换" aria-describedby="el-id-2609-193" class="el-drawer rtl" role="dialog" style="width: 80%;">
         <span class="el-drawer__sr-focus" tabindex="-1"></span>
         <header class="el-drawer__header">
-          <span id="el-id-2609-194" role="heading" class="el-drawer__title">I have a nested table inside!</span>
+          <span id="el-id-2609-194" role="heading" class="el-drawer__title">系统切换</span>
           <button aria-label="Close this dialog" class="el-drawer__close-btn" type="button" onClick="injectSwitchSystem.closeDialog()">
             <i class="el-icon el-drawer__close">
               <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
@@ -30,13 +30,12 @@ class operateDom {
             </i>
           </button>
         </header>
-        <div id="el-id-2609-193" class="el-drawer__body"></div>
+        <div id="el-id-2609-193" class="el-drawer__body">
+        </div>
       </div>
     </div>`
-
-
   
-  static dom = `
+/*   static dom = `
     <div role="dialog" aria-modal="true" aria-label="系统切换" class="el-overlay-dialog">
       <div class="el-dialog" tabindex="-1">
         <header class="el-dialog__header">
@@ -92,27 +91,97 @@ class operateDom {
         </footer>
       </div>
     </div>
-  `
+  ` */
 
   static async request(base) {
     await $http('GET', base + '/api/server/v1/permission/account?platformKey=zlink').then(res => {
       // this.systemData = res.data?.list || []
-      this.systemData = [
-        { id: 1, name: '系统1', url: 'www.baidu.com', isEnv: true,
-          children: [
-            { id: 11, name: '系统1-1', url: 'www.baidu.com' },
-            { id: 12, name: '系统1-2', url: 'www.baidu.com' },
-            { id: 13, name: '系统1-3', url: 'www.baidu.com' },
+      const data = {
+        operation: {
+          name: '运营系统',
+          list: [
+            { id: 1, name: '运营系统1', url: 'www.baidu.com', isEnv: true,
+              children: [
+                { id: 11, name: '运营系统1-1', url: 'www.baidu.com' },
+                { id: 12, name: '运营系统1-2', url: 'www.baidu.com' },
+                { id: 13, name: '运营系统1-3', url: 'www.baidu.com' },
+              ]
+            },
+            { id: 2, name: '运营系统2', url: 'www.baidu.com', isEnv: false },
+            { id: 3, name: '运营系统3', url: 'www.baidu.com', isEnv: false },
+            { id: 4, name: '运营系统4', url: 'www.baidu.com', isEnv: false },
+            { id: 5, name: '运营系统5', url: 'www.baidu.com', isEnv: true,
+              children: [
+                { id: 51, name: '运营系统5-1', url: 'www.baidu.com' },
+                { id: 52, name: '运营系统5-2', url: 'www.baidu.com' },
+                { id: 53, name: '运营系统5-3', url: 'www.baidu.com' },
+              ]
+            }
           ]
         },
-        { id: 2, name: '系统2', url: 'www.baidu.com', isEnv: false },
-        { id: 3, name: '系统3', url: 'www.baidu.com', isEnv: false },
-        { id: 4, name: '系统4', url: 'www.baidu.com', isEnv: false },
-        { id: 5, name: '系统5', url: 'www.baidu.com', isEnv: true,
+        science: {
+          name: '技术平台',
+          list: [
+            { id: 1, name: '技术平台1', url: 'www.baidu.com', isEnv: true,
+              children: [
+                { id: 11, name: '技术平台1-1', url: 'www.baidu.com' },
+                { id: 12, name: '技术平台1-2', url: 'www.baidu.com' },
+                { id: 13, name: '技术平台1-3', url: 'www.baidu.com' },
+              ]
+            },
+            { id: 2, name: '技术平台2', url: 'www.baidu.com', isEnv: false },
+            { id: 3, name: '技术平台3', url: 'www.baidu.com', isEnv: false },
+            { id: 4, name: '技术平台4', url: 'www.baidu.com', isEnv: false },
+            { id: 5, name: '技术平台5', url: 'www.baidu.com', isEnv: true,
+              children: [
+                { id: 51, name: '技术平台5-1', url: 'www.baidu.com' },
+                { id: 52, name: '技术平台5-2', url: 'www.baidu.com' },
+                { id: 53, name: '技术平台5-3', url: 'www.baidu.com' },
+              ]
+            }
+          ]
+        }
+      }
+
+      let list = ''
+      for (let o in data) {
+        console.log(o)
+        list += `<div class="lpc-classify-container">
+          <div>${ data[o].name }</div>` + 
+          data[o].list.forEach((l) => {
+            return `<div class="platform-list"></div>`
+          })
+       + `</div>`
+
+
+        
+        // list += `<div class="platform_list"> ${ o.name } </div>`
+      }
+      console.log(list)
+
+
+
+
+
+
+
+      
+      /* this.systemData = [
+        { id: 1, name: '运营系统1', url: 'www.baidu.com', isEnv: true,
           children: [
-            { id: 51, name: '系统5-1', url: 'www.baidu.com' },
-            { id: 52, name: '系统5-2', url: 'www.baidu.com' },
-            { id: 53, name: '系统5-3', url: 'www.baidu.com' },
+            { id: 11, name: '运营系统1-1', url: 'www.baidu.com' },
+            { id: 12, name: '运营系统1-2', url: 'www.baidu.com' },
+            { id: 13, name: '运营系统1-3', url: 'www.baidu.com' },
+          ]
+        },
+        { id: 2, name: '运营系统2', url: 'www.baidu.com', isEnv: false },
+        { id: 3, name: '运营系统3', url: 'www.baidu.com', isEnv: false },
+        { id: 4, name: '运营系统4', url: 'www.baidu.com', isEnv: false },
+        { id: 5, name: '运营系统5', url: 'www.baidu.com', isEnv: true,
+          children: [
+            { id: 51, name: '运营系统5-1', url: 'www.baidu.com' },
+            { id: 52, name: '运营系统5-2', url: 'www.baidu.com' },
+            { id: 53, name: '运营系统5-3', url: 'www.baidu.com' },
           ]
         }
       ]
@@ -124,7 +193,7 @@ class operateDom {
         this.envData.forEach((opt) => {
           this.envHTML += `<option value="${ opt.id }" class="option_list"> ${ opt.name } </option>`
         })
-      }
+      } */
     })
   }
 
@@ -138,7 +207,7 @@ class operateDom {
     // document.querySelector('.select_env_container').innerHTML = this.envHTML
   }
 
-  static close() {
+  static close() { 
     document.querySelector('.zonst-switch-system .el-drawer').classList.remove('open')
     const a = setTimeout(() => {
       document.querySelector('.zonst-switch-system').style.display = 'none'

@@ -521,7 +521,7 @@ var injectSwitchSystem = (function () {
   /*
    * @Author: lipengcheng
    * @Date: 2023-07-24 10:39:43
-   * @LastEditTime: 2023-07-28 09:30:23
+   * @LastEditTime: 2023-07-28 16:12:26
    * @Description: http封装
    */
 
@@ -545,7 +545,7 @@ var injectSwitchSystem = (function () {
   var $http = function $http(method, url, data) {
     return new Promise(function (resolve, reject) {
       var headers = {};
-      var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiLmtYvor5XnrqHnkIblkZhhZG1pbiIsImdyb3VwX2lkIjo3LCJpc19zdXBlcnVzZXIiOmZhbHNlLCJleHAiOjE2OTA2ODMxMzh9.pFAMq5t6sXNgkJcZDBZgAhB17i1P-iP2V6kSBGkI75U'; // localStorage.getItem('ZLINK_TOKEN_NAME')
+      var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiLmtYvor5VhZG1pbiIsImdyb3VwX2lkIjo3LCJpc19zdXBlcnVzZXIiOmZhbHNlLCJleHAiOjE2OTA4NTMxNDd9.bo1O8Wo3A-qVP_n8z9vJjFJ6Qd3XIyLe9qWZjsK7pm4'; // localStorage.getItem('ZLINK_TOKEN_NAME')
       headers['X-Xq5-Jwt'] = token ;
       var xhr = new XMLHttpRequest();
       xhr.open(method, url, true);
@@ -590,77 +590,224 @@ var injectSwitchSystem = (function () {
     }
     _createClass(operateDom, null, [{
       key: "request",
-      value: function () {
+      value:
+      /*   static dom = `
+          <div role="dialog" aria-modal="true" aria-label="系统切换" class="el-overlay-dialog">
+            <div class="el-dialog" tabindex="-1">
+              <header class="el-dialog__header">
+                <span role="heading" class="el-dialog__title">系统切换</span>
+                <button aria-label="Close this dialog" class="el-dialog__headerbtn" type="button" onClick="${ operateDom.closeDialog }">
+                  <i class="el-icon el-dialog__close">
+                    <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                      <path fill="currentColor" d="M764.288 214.592 512 466.88 259.712 214.592a31.936 31.936 0 0 0-45.12 45.12L466.752 512 214.528 764.224a31.936 31.936 0 1 0 45.12 45.184L512 557.184l252.288 252.288a31.936 31.936 0 0 0 45.12-45.12L557.12 512.064l252.288-252.352a31.936 31.936 0 1 0-45.12-45.184z">
+                      </path>
+                    </svg>
+                  </i>
+                </button>
+              </header>
+              <div class="el-dialog__body">
+      
+                <form class="el-form">
+                  <div class="el-form-item">
+                    <label id="el-id-9829-351" for="el-id-9829-405" class="el-form-item__label" style="">系统选择：</label>
+                    <div class="el-form-item__content">
+                      <div class="el-input">
+                        <div class="el-input__wrapper" role="button" tabindex="-1">
+                          <select class="el-input__inner select_system_container" autocomplete="off" tabindex="0" id="el-id-9829-405" onChange="injectSwitchSystem.systemChange(this.options[this.options.selectedIndex].value)">
+                            `+ this.systemHTML + `
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="el-form-item env-form-item">
+                    <label id="el-id-9829-352" for="el-id-9829-406" class="el-form-item__label" style="">环境选择：</label>
+                    <div class="el-form-item__content">
+                      <div class="el-input">
+                        <div class="el-input__wrapper" role="button" tabindex="-1">
+                          <select class="el-input__inner select_env_container" autocomplete="off" tabindex="0" id="el-id-9829-406" onChange="injectSwitchSystem.systemChange(this.options[this.options.selectedIndex].value)">
+                            `+ this.envHTML + `
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+      
+              </div>
+              <footer class="el-dialog__footer">
+                <span class="dialog-footer">
+                  <button aria-disabled="false" type="button" class="el-button" onClick="injectSwitchSystem.closeDialog()">
+                    <span class="">取消</span>
+                  </button>
+                  <button aria-disabled="false" type="button" class="el-button el-button--primary">
+                    <span class=""> 确定 </span>
+                  </button>
+                </span>
+              </footer>
+            </div>
+          </div>
+        ` */
+      function () {
         var _request = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(base) {
-          var _this = this;
           return _regeneratorRuntime().wrap(function _callee$(_context) {
             while (1) switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
                 return $http('GET', base + '/api/server/v1/permission/account?platformKey=zlink').then(function (res) {
                   // this.systemData = res.data?.list || []
-                  _this.systemData = [{
-                    id: 1,
-                    name: '系统1',
-                    url: 'www.baidu.com',
-                    isEnv: true,
-                    children: [{
-                      id: 11,
-                      name: '系统1-1',
-                      url: 'www.baidu.com'
-                    }, {
-                      id: 12,
-                      name: '系统1-2',
-                      url: 'www.baidu.com'
-                    }, {
-                      id: 13,
-                      name: '系统1-3',
-                      url: 'www.baidu.com'
-                    }]
-                  }, {
-                    id: 2,
-                    name: '系统2',
-                    url: 'www.baidu.com',
-                    isEnv: false
-                  }, {
-                    id: 3,
-                    name: '系统3',
-                    url: 'www.baidu.com',
-                    isEnv: false
-                  }, {
-                    id: 4,
-                    name: '系统4',
-                    url: 'www.baidu.com',
-                    isEnv: false
-                  }, {
-                    id: 5,
-                    name: '系统5',
-                    url: 'www.baidu.com',
-                    isEnv: true,
-                    children: [{
-                      id: 51,
-                      name: '系统5-1',
-                      url: 'www.baidu.com'
-                    }, {
-                      id: 52,
-                      name: '系统5-2',
-                      url: 'www.baidu.com'
-                    }, {
-                      id: 53,
-                      name: '系统5-3',
-                      url: 'www.baidu.com'
-                    }]
-                  }];
-                  for (var i = 0; i < _this.systemData.length; i++) {
-                    _this.systemHTML += "<option value=\"".concat(_this.systemData[i].id, "\" class=\"option_list\"> ").concat(_this.systemData[i].name, " </option>");
+                  var data = {
+                    operation: {
+                      name: '运营系统',
+                      list: [{
+                        id: 1,
+                        name: '运营系统1',
+                        url: 'www.baidu.com',
+                        isEnv: true,
+                        children: [{
+                          id: 11,
+                          name: '运营系统1-1',
+                          url: 'www.baidu.com'
+                        }, {
+                          id: 12,
+                          name: '运营系统1-2',
+                          url: 'www.baidu.com'
+                        }, {
+                          id: 13,
+                          name: '运营系统1-3',
+                          url: 'www.baidu.com'
+                        }]
+                      }, {
+                        id: 2,
+                        name: '运营系统2',
+                        url: 'www.baidu.com',
+                        isEnv: false
+                      }, {
+                        id: 3,
+                        name: '运营系统3',
+                        url: 'www.baidu.com',
+                        isEnv: false
+                      }, {
+                        id: 4,
+                        name: '运营系统4',
+                        url: 'www.baidu.com',
+                        isEnv: false
+                      }, {
+                        id: 5,
+                        name: '运营系统5',
+                        url: 'www.baidu.com',
+                        isEnv: true,
+                        children: [{
+                          id: 51,
+                          name: '运营系统5-1',
+                          url: 'www.baidu.com'
+                        }, {
+                          id: 52,
+                          name: '运营系统5-2',
+                          url: 'www.baidu.com'
+                        }, {
+                          id: 53,
+                          name: '运营系统5-3',
+                          url: 'www.baidu.com'
+                        }]
+                      }]
+                    },
+                    science: {
+                      name: '技术平台',
+                      list: [{
+                        id: 1,
+                        name: '技术平台1',
+                        url: 'www.baidu.com',
+                        isEnv: true,
+                        children: [{
+                          id: 11,
+                          name: '技术平台1-1',
+                          url: 'www.baidu.com'
+                        }, {
+                          id: 12,
+                          name: '技术平台1-2',
+                          url: 'www.baidu.com'
+                        }, {
+                          id: 13,
+                          name: '技术平台1-3',
+                          url: 'www.baidu.com'
+                        }]
+                      }, {
+                        id: 2,
+                        name: '技术平台2',
+                        url: 'www.baidu.com',
+                        isEnv: false
+                      }, {
+                        id: 3,
+                        name: '技术平台3',
+                        url: 'www.baidu.com',
+                        isEnv: false
+                      }, {
+                        id: 4,
+                        name: '技术平台4',
+                        url: 'www.baidu.com',
+                        isEnv: false
+                      }, {
+                        id: 5,
+                        name: '技术平台5',
+                        url: 'www.baidu.com',
+                        isEnv: true,
+                        children: [{
+                          id: 51,
+                          name: '技术平台5-1',
+                          url: 'www.baidu.com'
+                        }, {
+                          id: 52,
+                          name: '技术平台5-2',
+                          url: 'www.baidu.com'
+                        }, {
+                          id: 53,
+                          name: '技术平台5-3',
+                          url: 'www.baidu.com'
+                        }]
+                      }]
+                    }
+                  };
+                  var list = '';
+                  for (var o in data) {
+                    console.log(o);
+                    list += "<div class=\"lpc-classify-container\">\n          <div>".concat(data[o].name, "</div>") + data[o].list.forEach(function (l) {
+                      return "<div class=\"platform-list\"></div>";
+                    }) + "</div>";
+
+                    // list += `<div class="platform_list"> ${ o.name } </div>`
                   }
-                  if (_this.systemData[0].isEnv) {
-                    // 如果第一个有环境变量
-                    _this.envData = _this.systemData[0].children;
-                    _this.envData.forEach(function (opt) {
-                      _this.envHTML += "<option value=\"".concat(opt.id, "\" class=\"option_list\"> ").concat(opt.name, " </option>");
-                    });
+
+                  console.log(list);
+
+                  /* this.systemData = [
+                    { id: 1, name: '运营系统1', url: 'www.baidu.com', isEnv: true,
+                      children: [
+                        { id: 11, name: '运营系统1-1', url: 'www.baidu.com' },
+                        { id: 12, name: '运营系统1-2', url: 'www.baidu.com' },
+                        { id: 13, name: '运营系统1-3', url: 'www.baidu.com' },
+                      ]
+                    },
+                    { id: 2, name: '运营系统2', url: 'www.baidu.com', isEnv: false },
+                    { id: 3, name: '运营系统3', url: 'www.baidu.com', isEnv: false },
+                    { id: 4, name: '运营系统4', url: 'www.baidu.com', isEnv: false },
+                    { id: 5, name: '运营系统5', url: 'www.baidu.com', isEnv: true,
+                      children: [
+                        { id: 51, name: '运营系统5-1', url: 'www.baidu.com' },
+                        { id: 52, name: '运营系统5-2', url: 'www.baidu.com' },
+                        { id: 53, name: '运营系统5-3', url: 'www.baidu.com' },
+                      ]
+                    }
+                  ]
+                  for (let i = 0; i < this.systemData.length; i++) {
+                    this.systemHTML += `<option value="${ this.systemData[i].id }" class="option_list"> ${ this.systemData[i].name } </option>`
                   }
+                  if (this.systemData[0].isEnv) { // 如果第一个有环境变量
+                    this.envData = this.systemData[0].children
+                    this.envData.forEach((opt) => {
+                      this.envHTML += `<option value="${ opt.id }" class="option_list"> ${ opt.name } </option>`
+                    })
+                  } */
                 });
               case 2:
               case "end":
@@ -720,7 +867,7 @@ var injectSwitchSystem = (function () {
     }, {
       key: "systemChange",
       value: function systemChange(v) {
-        var _this2 = this;
+        var _this = this;
         console.log(v);
         if (!v) return;
         this.systemData.forEach(function (list) {
@@ -728,12 +875,12 @@ var injectSwitchSystem = (function () {
             if (!list.isEnv) {
               document.querySelector('.env-form-item').style.display = 'none';
             } else {
-              _this2.envData = list.children;
-              _this2.envHTML = '<option value="" class="option_list"> 请选择环境 </option>';
-              _this2.envData.forEach(function (opt) {
-                _this2.envHTML += "<option value=\"".concat(opt.id, "\" class=\"option_list\"> ").concat(opt.name, " </option>");
+              _this.envData = list.children;
+              _this.envHTML = '<option value="" class="option_list"> 请选择环境 </option>';
+              _this.envData.forEach(function (opt) {
+                _this.envHTML += "<option value=\"".concat(opt.id, "\" class=\"option_list\"> ").concat(opt.name, " </option>");
               });
-              document.querySelector('.select_env_container').innerHTML = _this2.envHTML;
+              document.querySelector('.select_env_container').innerHTML = _this.envHTML;
               document.querySelector('.env-form-item').style.display = 'block';
             }
           }
@@ -747,8 +894,7 @@ var injectSwitchSystem = (function () {
   _defineProperty(operateDom, "envData", []);
   _defineProperty(operateDom, "envHTML", '<option value="" class="option_list"> 请选择环境 </option>');
   _defineProperty(operateDom, "domdialog", document.createElement('div'));
-  _defineProperty(operateDom, "drawerDom", "\n    <div class=\"el-overlay\" style=\"z-index: 2039;\">\n      <div aria-modal=\"true\" aria-label=\"I have a nested table inside!\" aria-describedby=\"el-id-2609-193\" class=\"el-drawer rtl\" role=\"dialog\" style=\"width: 80%;\">\n        <span class=\"el-drawer__sr-focus\" tabindex=\"-1\"></span>\n        <header class=\"el-drawer__header\">\n          <span id=\"el-id-2609-194\" role=\"heading\" class=\"el-drawer__title\">I have a nested table inside!</span>\n          <button aria-label=\"Close this dialog\" class=\"el-drawer__close-btn\" type=\"button\" onClick=\"injectSwitchSystem.closeDialog()\">\n            <i class=\"el-icon el-drawer__close\">\n              <svg viewBox=\"0 0 1024 1024\" xmlns=\"http://www.w3.org/2000/svg\">\n                <path fill=\"currentColor\" d=\"M764.288 214.592 512 466.88 259.712 214.592a31.936 31.936 0 0 0-45.12 45.12L466.752 512 214.528 764.224a31.936 31.936 0 1 0 45.12 45.184L512 557.184l252.288 252.288a31.936 31.936 0 0 0 45.12-45.12L557.12 512.064l252.288-252.352a31.936 31.936 0 1 0-45.12-45.184z\"></path>\n              </svg>\n            </i>\n          </button>\n        </header>\n        <div id=\"el-id-2609-193\" class=\"el-drawer__body\"></div>\n      </div>\n    </div>");
-  _defineProperty(operateDom, "dom", "\n    <div role=\"dialog\" aria-modal=\"true\" aria-label=\"\u7CFB\u7EDF\u5207\u6362\" class=\"el-overlay-dialog\">\n      <div class=\"el-dialog\" tabindex=\"-1\">\n        <header class=\"el-dialog__header\">\n          <span role=\"heading\" class=\"el-dialog__title\">\u7CFB\u7EDF\u5207\u6362</span>\n          <button aria-label=\"Close this dialog\" class=\"el-dialog__headerbtn\" type=\"button\" onClick=\"".concat(operateDom.closeDialog, "\">\n            <i class=\"el-icon el-dialog__close\">\n              <svg viewBox=\"0 0 1024 1024\" xmlns=\"http://www.w3.org/2000/svg\">\n                <path fill=\"currentColor\" d=\"M764.288 214.592 512 466.88 259.712 214.592a31.936 31.936 0 0 0-45.12 45.12L466.752 512 214.528 764.224a31.936 31.936 0 1 0 45.12 45.184L512 557.184l252.288 252.288a31.936 31.936 0 0 0 45.12-45.12L557.12 512.064l252.288-252.352a31.936 31.936 0 1 0-45.12-45.184z\">\n                </path>\n              </svg>\n            </i>\n          </button>\n        </header>\n        <div class=\"el-dialog__body\">\n\n          <form class=\"el-form\">\n            <div class=\"el-form-item\">\n              <label id=\"el-id-9829-351\" for=\"el-id-9829-405\" class=\"el-form-item__label\" style=\"\">\u7CFB\u7EDF\u9009\u62E9\uFF1A</label>\n              <div class=\"el-form-item__content\">\n                <div class=\"el-input\">\n                  <div class=\"el-input__wrapper\" role=\"button\" tabindex=\"-1\">\n                    <select class=\"el-input__inner select_system_container\" autocomplete=\"off\" tabindex=\"0\" id=\"el-id-9829-405\" onChange=\"injectSwitchSystem.systemChange(this.options[this.options.selectedIndex].value)\">\n                      ") + operateDom.systemHTML + "\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"el-form-item env-form-item\">\n              <label id=\"el-id-9829-352\" for=\"el-id-9829-406\" class=\"el-form-item__label\" style=\"\">\u73AF\u5883\u9009\u62E9\uFF1A</label>\n              <div class=\"el-form-item__content\">\n                <div class=\"el-input\">\n                  <div class=\"el-input__wrapper\" role=\"button\" tabindex=\"-1\">\n                    <select class=\"el-input__inner select_env_container\" autocomplete=\"off\" tabindex=\"0\" id=\"el-id-9829-406\" onChange=\"injectSwitchSystem.systemChange(this.options[this.options.selectedIndex].value)\">\n                      " + operateDom.envHTML + "\n                    </select>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </form>\n\n        </div>\n        <footer class=\"el-dialog__footer\">\n          <span class=\"dialog-footer\">\n            <button aria-disabled=\"false\" type=\"button\" class=\"el-button\" onClick=\"injectSwitchSystem.closeDialog()\">\n              <span class=\"\">\u53D6\u6D88</span>\n            </button>\n            <button aria-disabled=\"false\" type=\"button\" class=\"el-button el-button--primary\">\n              <span class=\"\"> \u786E\u5B9A </span>\n            </button>\n          </span>\n        </footer>\n      </div>\n    </div>\n  ");
+  _defineProperty(operateDom, "drawerDom", "\n    <div class=\"el-overlay\" style=\"z-index: 2039;\">\n      <div aria-modal=\"true\" aria-label=\"\u7CFB\u7EDF\u5207\u6362\" aria-describedby=\"el-id-2609-193\" class=\"el-drawer rtl\" role=\"dialog\" style=\"width: 80%;\">\n        <span class=\"el-drawer__sr-focus\" tabindex=\"-1\"></span>\n        <header class=\"el-drawer__header\">\n          <span id=\"el-id-2609-194\" role=\"heading\" class=\"el-drawer__title\">\u7CFB\u7EDF\u5207\u6362</span>\n          <button aria-label=\"Close this dialog\" class=\"el-drawer__close-btn\" type=\"button\" onClick=\"injectSwitchSystem.closeDialog()\">\n            <i class=\"el-icon el-drawer__close\">\n              <svg viewBox=\"0 0 1024 1024\" xmlns=\"http://www.w3.org/2000/svg\">\n                <path fill=\"currentColor\" d=\"M764.288 214.592 512 466.88 259.712 214.592a31.936 31.936 0 0 0-45.12 45.12L466.752 512 214.528 764.224a31.936 31.936 0 1 0 45.12 45.184L512 557.184l252.288 252.288a31.936 31.936 0 0 0 45.12-45.12L557.12 512.064l252.288-252.352a31.936 31.936 0 1 0-45.12-45.184z\"></path>\n              </svg>\n            </i>\n          </button>\n        </header>\n        <div id=\"el-id-2609-193\" class=\"el-drawer__body\">\n        </div>\n      </div>\n    </div>");
 
   var injectSwitchSystem = /*#__PURE__*/function (_operateDom) {
     _inherits(injectSwitchSystem, _operateDom);
@@ -779,7 +925,7 @@ var injectSwitchSystem = (function () {
               case 0:
                 console.log(dom);
                 _context.prev = 1;
-                baseUrl = dom.env ? 'http://zlink.test.xq5.com' : 'https://zlink.zonst.com';
+                baseUrl = dom.env ? 'http://zlink.test.zonst.com' : 'https://zlink.zonst.com';
                 this.url = baseUrl;
                 _context.next = 6;
                 return _get(_getPrototypeOf(injectSwitchSystem), "request", this).call(this, this.url);

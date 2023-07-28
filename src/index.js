@@ -23,7 +23,7 @@ export default class injectSwitchSystem extends operateDom {
   static async init(dom) {
     console.log(dom)
     try {
-      const baseUrl = dom.env ? 'http://zlink.test.xq5.com' : 'https://zlink.zonst.com'
+      const baseUrl = dom.env ? 'http://zlink.test.zonst.com' : 'https://zlink.zonst.com'
       this.url = baseUrl
       await super.request(this.url) // 请求数据
       super.createdDom() // 创建Dom
