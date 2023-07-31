@@ -1,7 +1,14 @@
+/*
+ * @Author: lipengcheng
+ * @Date: 2023-07-24 09:53:26
+ * @LastEditTime: 2023-07-31 11:14:45
+ * @Description: 
+ */
 // import { $http } from './utils/http'
 // import './index.scss'
 import './base.scss'
 import './el-drawer.scss'
+import './index.scss'
 import operateDom from './utils/operateDialog'
 
 export default class injectSwitchSystem extends operateDom {

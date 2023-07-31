@@ -1,7 +1,7 @@
 /*
  * @Author: lipengcheng
  * @Date: 2023-07-24 17:15:28
- * @LastEditTime: 2023-07-28 18:05:38
+ * @LastEditTime: 2023-07-31 16:35:41
  * @Description: 生成dialog dom及操作
  */
 import { $http } from './http'
@@ -10,6 +10,8 @@ class operateDom {
   constructor() {}
   static systemData = []
   
+  static containerList = ''
+
   static systemHTML = '<option value="" class="option_list"> 请选择系统 </option>'
   static envData = []
   static envHTML = '<option value="" class="option_list"> 请选择环境 </option>'
@@ -93,6 +95,19 @@ class operateDom {
     </div>
   ` */
 
+
+  static mOver(e) {
+    console.log(e)
+    // console.log(e.getAttribute('attr-listid'))
+    console.log(e.target.attributes['attr-listid'])
+    console.log('移入')
+  }
+
+  static mOut(e) {
+    console.log(e)
+    console.log('移出')
+  }
+
   static async request(base) {
     await $http('GET', base + '/api/server/v1/permission/account?platformKey=zlink').then(res => {
       // this.systemData = res.data?.list || []
@@ -116,7 +131,12 @@ class operateDom {
                 { id: 52, name: '运营系统5-2', url: 'www.baidu.com' },
                 { id: 53, name: '运营系统5-3', url: 'www.baidu.com' },
               ]
-            }
+            },
+            { id: 6, name: '运营系统6', url: 'www.baidu.com', isEnv: false },
+            { id: 7, name: '运营系统7', url: 'www.baidu.com', isEnv: false },
+            { id: 8, name: '运营系统8', url: 'www.baidu.com', isEnv: false },
+            { id: 9, name: '运营系统9', url: 'www.baidu.com', isEnv: false },
+            { id: 10, name: '运营系统10', url: 'www.baidu.com', isEnv: false },
           ]
         },
         science: {
@@ -145,26 +165,24 @@ class operateDom {
 
       let list = ''
       for (let o in data) {
-        console.log(o)
         list += `<div class="lpc-classify-container">
-          <div>${ data[o].name }</div>` + 
+          <div class="lpc-classify-title">${ data[o].name }</div><div class="divider"></div><div class="plat-content">`;
+
           data[o].list.forEach((l) => {
-            return `<div class="platform-list"></div>`
+            list +=  `<div class="platform-list" attr-listid="${ l.id }">
+              <span>${ l.name }</span>`;
+              if (l.children && l.children.length) {
+                list += `<div class="lpc-popper">
+                          <div>popover内容</div>
+                          <span class="lpc-popper__arrow" data-popper-arrow="" style="position: absolute; top: 107px;"></span>
+                        </div>`
+              }
+            list += `</div>`;
           })
-       + `</div>`
-
-
-        
-        // list += `<div class="platform_list"> ${ o.name } </div>`
+          // onmouseover="injectSwitchSystem.mOver(this)" onmouseout="injectSwitchSystem.mOut(this)"
+          list += `</div></div>`;
       }
-      console.log(list)
-
-
-
-
-
-
-
+      this.containerList = list
       
       /* this.systemData = [
         { id: 1, name: '运营系统1', url: 'www.baidu.com', isEnv: true,
@@ -203,6 +221,15 @@ class operateDom {
     this.domdialog.innerHTML = this.drawerDom // this.dom
     this.domdialog.style.display = 'none'
     document.body.appendChild(this.domdialog)
+    document.querySelector('.el-drawer__body').innerHTML = this.containerList
+    // console.log(document.querySelector('.platform-list'))
+    const listenerItem = document.querySelectorAll('.platform-list')
+    listenerItem.forEach(list => {
+      console.log(list)
+      list.addEventListener('mouseover', this.mOver, false);
+      list.addEventListener('mouseout', this.mOut, false);
+    })
+    document.querySelector('.platform-list').addEventListener('mouseover', this.hoverList, false); // onmouseout
     // document.querySelector('.select_system_container').innerHTML = this.systemHTML
     // document.querySelector('.select_env_container').innerHTML = this.envHTML
   }
