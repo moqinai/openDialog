@@ -1,7 +1,7 @@
 /*
  * @Author: lipengcheng
  * @Date: 2023-07-24 17:15:28
- * @LastEditTime: 2023-07-31 16:35:41
+ * @LastEditTime: 2023-08-01 17:15:43
  * @Description: 生成dialog dom及操作
  */
 import { $http } from './http'
@@ -98,14 +98,17 @@ class operateDom {
 
   static mOver(e) {
     console.log(e)
-    // console.log(e.getAttribute('attr-listid'))
-    console.log(e.target.attributes['attr-listid'])
+
+    // console.log(e.target.querySelector('.lpc-popper'))
     console.log('移入')
+    e.target.querySelector('.lpc-popper').style.display = 'block'
   }
 
   static mOut(e) {
     console.log(e)
     console.log('移出')
+    // console.log(e.target)
+    e.target.querySelector('.lpc-popper').style.display = 'none'
   }
 
   static async request(base) {
@@ -169,12 +172,11 @@ class operateDom {
           <div class="lpc-classify-title">${ data[o].name }</div><div class="divider"></div><div class="plat-content">`;
 
           data[o].list.forEach((l) => {
-            list +=  `<div class="platform-list" attr-listid="${ l.id }">
-              <span>${ l.name }</span>`;
+            list +=  `<div class="platform-list" attr-listid="${ l.id }" attr-isChild="${ !!(l.children && l.children.length) }">${ l.name }`;
               if (l.children && l.children.length) {
                 list += `<div class="lpc-popper">
                           <div>popover内容</div>
-                          <span class="lpc-popper__arrow" data-popper-arrow="" style="position: absolute; top: 107px;"></span>
+                          <span class="lpc-popper__arrow" data-popper-arrow="" style="position: absolute;"></span>
                         </div>`
               }
             list += `</div>`;
@@ -225,13 +227,16 @@ class operateDom {
     // console.log(document.querySelector('.platform-list'))
     const listenerItem = document.querySelectorAll('.platform-list')
     listenerItem.forEach(list => {
-      console.log(list)
-      list.addEventListener('mouseover', this.mOver, false);
-      list.addEventListener('mouseout', this.mOut, false);
+      // console.log(list)
+      // console.log(list.getAttribute('attr-isChild'))
+      if (list.getAttribute('attr-isChild') === 'true') {
+        list.addEventListener('mouseover', this.mOver(), true);
+        list.addEventListener('mouseout', this.mOut(), true);
+      }
+      
     })
-    document.querySelector('.platform-list').addEventListener('mouseover', this.hoverList, false); // onmouseout
-    // document.querySelector('.select_system_container').innerHTML = this.systemHTML
-    // document.querySelector('.select_env_container').innerHTML = this.envHTML
+    console.log(window.innerWidth) // innerWidth
+    // document.querySelector('.platform-list').addEventListener('mouseover', this.hoverList, false); // onmouseout
   }
 
   static close() { 

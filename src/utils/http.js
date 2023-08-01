@@ -1,7 +1,7 @@
 /*
  * @Author: lipengcheng
  * @Date: 2023-07-24 10:39:43
- * @LastEditTime: 2023-07-28 16:12:26
+ * @LastEditTime: 2023-08-01 09:33:52
  * @Description: http封装
  */
 
@@ -30,7 +30,7 @@ const $http = (method, url, data) => {
     } else {
       dataOptions.data = data
     }
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiLmtYvor5VhZG1pbiIsImdyb3VwX2lkIjo3LCJpc19zdXBlcnVzZXIiOmZhbHNlLCJleHAiOjE2OTA4NTMxNDd9.bo1O8Wo3A-qVP_n8z9vJjFJ6Qd3XIyLe9qWZjsK7pm4' // localStorage.getItem('ZLINK_TOKEN_NAME')
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMDAxNywidXNlcl9uYW1lIjoi5p2O6bmP56iLIiwiZ3JvdXBfaWQiOjIsImlzX3N1cGVydXNlciI6ZmFsc2UsImV4cCI6MTY5MTIyOTUyOX0.lcFp4qcuGT5ESajMDmFDPl3oBVbRYTC4NI4OWOaiLpY' // localStorage.getItem('ZLINK_TOKEN_NAME')
     headers['X-Xq5-Jwt'] = token ?? ''
     
     const xhr = new XMLHttpRequest();

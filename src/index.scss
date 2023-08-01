@@ -378,6 +378,7 @@
 
 .zonst-switch-system {
   .el-drawer__body {
+    overflow-x: hidden;
     .lpc-classify-container {
       .lpc-classify-title {
         padding: 5px 10px;
@@ -424,9 +425,10 @@
           border-radius: 4px;
           position: relative;
           .lpc-popper {
+            display: block;
             position: absolute;
             left: 210px;
-
+            top: -50%;
             min-width: 50px;
             min-height: 150px;
             word-wrap: break-word;
@@ -443,7 +445,7 @@
             padding: 12px;
             background: #FFFFFF;
             border: 1px solid #e4e7ed;
-            width: 400px;
+            width: 200px;
             z-index: 2023;
             .lpc-popper__arrow {
               width: 10px;
