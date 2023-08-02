@@ -1,41 +1,48 @@
 /*
+<<<<<<< HEAD
  * @Author: lipengcheng lipengcheng@zonst.cn
  * @Date: 2023-07-24 20:32:49
  * @LastEditors: lipengcheng lipengcheng@zonst.cn
  * @LastEditTime: 2023-07-25 01:28:33
  * @FilePath: /switch-system/src/index.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+=======
+ * @Author: lipengcheng
+ * @Date: 2023-07-24 09:53:26
+ * @LastEditTime: 2023-07-31 11:14:45
+ * @Description: 
+>>>>>>> d3891706b34d4851fc6d57bb8c81e56101edbb68
  */
 // import { $http } from './utils/http'
+// import './index.scss'
+import './base.scss'
+import './el-drawer.scss'
 import './index.scss'
-import dialogDom from './utils/createdDom'
+import operateDom from './utils/operateDialog'
 
-function addEvent(obj,type,handle) {
-  try { 
-    // Chrome、FireFox、Opera、Safari、IE9.0及其以上版本
-    obj.addEventListener(type, handle, false);
-  } catch(e) {
-    try { // IE8.0及其以下版本
-      obj.attachEvent('on' + type, handle);
-    } catch (e) { // 早期浏览器
-      obj['on' + type] = handle;
-    }
-  }
-}
-
-export default class injectSwitchSystem {
+export default class injectSwitchSystem extends operateDom {
   constructor() {
+    super()
   }
-  static url = 'https://xxxx.com' // 请求系统接口
+  static url = 'https://zlink.zonst.com'
 
   static openDialog() {
-    // console.log(2)
-    document.body.append(dialogDom)
+    super.domdialog.style.display = 'block'
+    const a = setTimeout(() => {
+      super.domdialog.querySelector('.el-drawer').classList.add('open')
+      clearTimeout(a)
+    }, 50)
+    super.domdialog.querySelector('.el-overlay').addEventListener('click', super.closeDialog, false); // 监听点击空白处
+    super.keyDownListener() // 监听esc按下
   }
 
-  static init(dom) {
+  static async init(dom) {
     console.log(dom)
     try {
+      const baseUrl = dom.env ? 'http://zlink.test.zonst.com' : 'https://zlink.zonst.com'
+      this.url = baseUrl
+      await super.request(this.url) // 请求数据
+      super.createdDom() // 创建Dom
       dom.container.addEventListener('click', this.openDialog, false);
     } catch (err) {
       console.log(err)

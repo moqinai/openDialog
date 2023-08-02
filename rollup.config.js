@@ -1,7 +1,7 @@
 /*
  * @Author: lipengcheng
  * @Date: 2023-07-24 09:52:40
- * @LastEditTime: 2023-07-24 16:18:49
+ * @LastEditTime: 2023-07-25 17:20:01
  * @Description: 
  */
 import json from "@rollup/plugin-json"
@@ -28,22 +28,27 @@ export default {
       dir: "dist",
       format: 'cjs',
       entryFileNames: '[name].cjs.js',
+      exports: 'auto'
     },
     {
       dir: "dist",
       format: 'esm',
       entryFileNames: '[name].esm.js',
+      exports: 'auto'
     },
-    {
-      dir: "dist",
-      format: 'iife',
-      entryFileNames: '[name]dev.iife.js',
-    }
+    // {
+    //   dir: "dist",
+    //   format: 'iife',
+    //   entryFileNames: '[name]dev.iife.js',
+    // }
   ],
   plugins:[
     // eslint(),
-    resolve(), commonjs(), terser(), json(),
-    babel({ exclude: 'node_modules/**' }), // 不转译，node_modules里面的代码
+    resolve({
+      browser: true // 如果打包后的代码如果是使用在浏览器上的，需要进行配置
+    }),
+    commonjs(), terser(), json(),
+    babel({ babelHelpers: 'bundled', exclude: 'node_modules/**' }), // 不转译，node_modules里面的代码
     postcss({ plugins: [autoprefixer(), cssnano()] }),
   ]
 }

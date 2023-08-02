@@ -1,11 +1,9 @@
 <!--
  * @Author: lipengcheng
  * @Date: 2023-07-24 15:35:26
- * @LastEditTime: 2023-07-24 17:08:18
+ * @LastEditTime: 2023-07-26 15:47:47
  * @Description: 
 -->
-
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,12 +15,12 @@
   <body>
     <!-- <div id="ZonstCommonSwitchSystem" onclick="injectSwitchSystem.openDialog()">触发按钮</div> -->
     <div id="ZonstCommonSwitchSystem">触发按钮</div>
-
   </body>
   <script type="text/javascript" src="./dist/indexdev.iife.js"></script>
   <script type="text/javascript">
     injectSwitchSystem.init({
       container: document.getElementById('ZonstCommonSwitchSystem'),
+      env: true, // production 传true，否则传false
     })
   </script>
 </html>
